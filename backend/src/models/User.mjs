@@ -28,4 +28,24 @@ export default class User{
 
     return await getLastTableRow('users');  
   }
+
+  static async find(filter){
+
+    let filterQuery = "";
+    if(filter){
+      const field = Object.keys(filter)[0];
+      const value = filter[field];
+      filterQuery = `WHERE ${field} = '${value}'`
+    }
+
+    const query = `SELECT * FROM users ${filterQuery}`
+
+    const user = await db.promise().query(query);
+
+    if(filter){
+      return user[0][0];
+    } else {
+    return user[0];
+    }
+  }
 }
