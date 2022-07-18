@@ -1,4 +1,5 @@
 import { db } from "../db/db.mjs";
+import User from "./User.mjs";
 import getLastTableRow from "../helpers/get-last-row-table.mjs";
 
 export default class Follow{
@@ -21,8 +22,9 @@ export default class Follow{
   
     try {
       
+      const followedUser = User.retrieve({id: follow.followed_id})
       db.query(query);
-      return await getLastTableRow('users');  
+      return followedUser;  
       
     } catch (error) {
       console.log(error)
@@ -59,8 +61,18 @@ export default class Follow{
 
   }
 
-  static async delete(){
+  static async delete(follow){
 
-  }
+    const query = `DELETE FROM follows WHERE followed_id = ${follow.followed_id} AND follower_id = ${follow.follower_id}`
 
+    try {
+
+      const unfollowedUser = await User.retrieve({id: follow.followed_id});
+      await db.promise().query(query);
+      return unfollowedUser;
+
+    } catch (error) {
+      console.log(error)
+    }
+  }    
 }
