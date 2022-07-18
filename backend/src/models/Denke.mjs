@@ -33,4 +33,37 @@ export default class Denke{
 
   }
 
+  static async retrieve(filter){
+
+    let filterQuery = "";
+    if(filter){
+      const field = Object.keys(filter)[0];
+      let value = filter[field];
+
+      if (typeof(value) === "string"){
+        value = `'${value}'`
+      }
+
+      filterQuery = `WHERE ${field} = ${value}`
+    }
+
+    const query = `SELECT * FROM denkes ${filterQuery}`
+
+    try {
+
+      const denke = await db.promise().query(query);
+
+      if(filter){
+        return denke[0][0];
+      } else {
+      return denke[0];
+      }  
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+
+  }
+
 }

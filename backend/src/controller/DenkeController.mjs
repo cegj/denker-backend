@@ -41,7 +41,26 @@ export default class DenkeController{
     } catch (error) {
       res.status(500).json({ message: error, errorOrigin: "DenkeController.create" })
     }
-    
+  }
+
+  static async getDenke(req, res){
+
+    const id = req.params.id;
+
+    try {
+      
+      const denke = await Denke.retrieve({id});
+
+      if (denke){
+        res.status(200).json({message: "Denke obtido com sucesso", denke})
+      } else {
+        res.status(422).json({message: "O denke solicitado não foi localizado (id inválido)"})
+      }
+
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "DenkeController.getDenke" })
+    }
+
 
   }
 
