@@ -38,13 +38,13 @@ export default class UserController{
     }
 
     const usedEmail = await User.retrieve({email});
-    if (usedEmail){
+    if (usedEmail.length !== 0){
       res.status(422).json({message: "O e-mail já está em uso. Faça login ou escolha outro e-mail."})
       return
     }
 
     const usedUsername = await User.retrieve({username});
-    if (usedUsername){
+    if (usedUsername.length !== 0){
       res.status(422).json({message: "O nome de usuário já está em uso, escolha outro."})
       return
     }
@@ -75,7 +75,9 @@ export default class UserController{
 
     const {email, password} = req.body;
 
-    const user = await User.retrieve({email});
+    let user = await User.retrieve({email});
+    user = user[0]
+    
     if (!user){
       res.status(422).json({message: "O usuário não foi encontrado, verifique o e-mail"});
       return

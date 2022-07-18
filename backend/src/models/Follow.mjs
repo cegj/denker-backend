@@ -34,8 +34,11 @@ export default class Follow{
 
   static async retrieve(filter){
 
+    let innerJoinQuery = "";
     let filterQuery = "";
     if(filter){
+
+      //Set up the (WHERE) string
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
@@ -44,13 +47,25 @@ export default class Follow{
       }
 
       filterQuery = `WHERE ${field} = ${value}`
+
+      //Set up the (INNER JOIN) query
+
+      if (field === 'follower_id'){
+        innerJoinQuery += `INNER JOIN users ON follows.followed_id = users.id`
+      } else if (field === 'followed_id'){
+        innerJoinQuery += `INNER JOIN users ON follows.follower_id = users.id`
+      }
     }
 
-    const query = `SELECT * FROM follows ${filterQuery}`
+    const query = `SELECT * FROM follows ${innerJoinQuery} ${filterQuery}`
+
+    console.log(query)
 
     try {
 
       const follows = await db.promise().query(query);
+
+      console.log(follows[0])
 
       return follows[0];
       

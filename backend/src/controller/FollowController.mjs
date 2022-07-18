@@ -1,5 +1,6 @@
 import Follow from "../models/Follow.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
+import getUserById from "../helpers/get-user-by-id.mjs";
 
 export default class FollowController{
 
@@ -106,6 +107,52 @@ export default class FollowController{
     } catch (error) {
       res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
     }    
+
+  }
+
+  static async getFollowings(req, res){
+
+    const id = +req.params.id;
+
+    const user = await getUserById(id);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    try {
+
+      const followings = await Follow.retrieve({follower_id: id});
+
+      res.status(200).json({message: `Seguidos recuperados com sucesso`, user, followings});
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
+    }  
+
+  }
+
+  static async getFollowers(req, res){
+
+    const id = +req.params.id;
+
+    const user = await getUserById(id);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    try {
+
+      const followers = await Follow.retrieve({followed_id: id});
+
+      res.status(200).json({message: `Seguidores recuperados com sucesso`, user, followers});
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
+    }  
 
   }
 
