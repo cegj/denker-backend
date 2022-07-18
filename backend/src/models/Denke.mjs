@@ -53,11 +53,7 @@ export default class Denke{
 
       const denke = await db.promise().query(query);
 
-      if(filter){
-        return denke[0][0];
-      } else {
       return denke[0];
-      }  
       
     } catch (error) {
       console.log(error)

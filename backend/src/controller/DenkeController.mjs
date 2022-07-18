@@ -23,6 +23,8 @@ export default class DenkeController{
 
     if(req.file){
       denke.image = req.file.filename;
+    } else {
+      denke.image = "NULL";
     }
 
     denke.user_id = user.id;
@@ -43,16 +45,24 @@ export default class DenkeController{
     }
   }
 
-  static async getDenke(req, res){
+  static async getDenkeById(req, res){
 
     const id = req.params.id;
 
     try {
       
-      const denke = await Denke.retrieve({id});
+      let denke = await Denke.retrieve({id});
+      denke = denke[0];
+
+      let replyTo = {}
+      if (denke.denke_id){
+        replyTo = await Denke.retrieve({id: denke.denke_id})
+      }
+
+      const replies = await Denke.retrieve({denke_id: id});
 
       if (denke){
-        res.status(200).json({message: "Denke obtido com sucesso", denke})
+        res.status(200).json({message: "Denke obtido com sucesso", denke, replies, replyTo})
       } else {
         res.status(422).json({message: "O denke solicitado não foi localizado (id inválido)"})
       }
