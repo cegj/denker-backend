@@ -24,29 +24,48 @@ export default class User{
     CURRENT_TIMESTAMP)
     `
   
-    db.query(query);
+    try {
+      
+      db.query(query);
+      return await getLastTableRow('users');  
+      
+    } catch (error) {
+      console.log(error)
+    }
 
-    return await getLastTableRow('users');  
   }
 
   static async retrieve(filter){
 
+    //Create string with filter to find user
     let filterQuery = "";
     if(filter){
       const field = Object.keys(filter)[0];
-      const value = filter[field];
-      filterQuery = `WHERE ${field} = '${value}'`
+      let value = filter[field];
+
+      if (typeof(value) === "string"){
+        value = `'${value}'`
+      }
+
+      filterQuery = `WHERE ${field} = ${value}`
     }
 
     const query = `SELECT * FROM users ${filterQuery}`
 
-    const user = await db.promise().query(query);
+    try {
 
-    if(filter){
-      return user[0][0];
-    } else {
-    return user[0];
+      const user = await db.promise().query(query);
+
+      if(filter){
+        return user[0][0];
+      } else {
+      return user[0];
+      }  
+      
+    } catch (error) {
+      console.log(error)
     }
+
   }
 
   static async update(filter, valuesToUpdate){
@@ -64,8 +83,13 @@ export default class User{
     let filterQuery = "";
     if(filter){
       const field = Object.keys(filter)[0];
-      const value = filter[field];
-      filterQuery = `${field} = '${value}'`
+      let value = filter[field];
+
+      if (typeof(value) === "string"){
+        value = `'${value}'`
+      }
+
+      filterQuery = `${field} = ${value}`
     }
 
     const query = `
@@ -76,11 +100,42 @@ export default class User{
     WHERE
     ${filterQuery}`
 
-    await db.promise().query(query);
+    try {
+      
+      await db.promise().query(query);
+      const updatedUser = await User.retrieve(filter);
+      return updatedUser;
 
-    const updatedUser = await User.retrieve(filter);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-    return updatedUser;
+  static async delete(filter){
 
+    //Create string with filter to find user
+    let filterQuery = "";
+    if(filter){
+      const field = Object.keys(filter)[0];
+      let value = filter[field];
+
+      if (typeof(value) === "string"){
+        value = `'${value}'`
+      }
+
+      filterQuery = `${field} = ${value}`
+    }
+
+    const query = `DELETE FROM users WHERE ${filterQuery}`
+
+    try {
+
+      const deletedUser = await User.retrieve(filter);
+      await db.promise().query(query);
+      return deletedUser;
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

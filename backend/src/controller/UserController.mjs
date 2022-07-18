@@ -67,7 +67,7 @@ export default class UserController{
       createUserToken(createdUser, req, res, "Usuário criado com sucesso");
       
     } catch (error) {
-      res.status(500).json({ message: error })
+      res.status(500).json({ message: error, errorOrigin: "UserController.create"})
     }
   }
 
@@ -117,7 +117,6 @@ export default class UserController{
 
     user.password = undefined;
     res.status(200).json({user});
-
   }
 
   static async edit(req, res){
@@ -198,8 +197,33 @@ export default class UserController{
       createUserToken(updatedUser, req, res, "Usuário alterado com sucesso");
       
     } catch (error) {
-      res.status(500).json({ message: error })
+      res.status(500).json({ message: error, errorOrigin: "UserController.edit" })
     }
 
+  }
+
+  static async delete(req, res){
+
+    if(!req.headers.authorization){
+      res.status(422).json({message: "O token de autenticação não foi informado"})
+      return
+    }
+
+    const user = await getUserByToken(req, res);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    try {
+
+      const deletedUser = await User.delete({id: user.id});
+
+      res.status(200).json({message: "Usuário removido com sucesso"})
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "UserController.delete" })
+    }
   }
 }
