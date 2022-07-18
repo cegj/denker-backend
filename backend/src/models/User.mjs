@@ -23,13 +23,13 @@ export default class User{
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP)
     `
-
+  
     db.query(query);
 
     return await getLastTableRow('users');  
   }
 
-  static async find(filter){
+  static async retrieve(filter){
 
     let filterQuery = "";
     if(filter){
@@ -47,5 +47,47 @@ export default class User{
     } else {
     return user[0];
     }
+  }
+
+  static async update(filter, valuesToUpdate){
+
+    let updateString = "";
+    for (key in valuesToUpdate){
+
+      console.log(key)
+
+      updateString += `${key} = ${valuesToUpdate[key]},`
+    }
+      updateString = updateString.slice(0, -1); //remove last comma
+
+    console.log(updateString);
+
+    let filterQuery = "";
+    if(filter){
+      const field = Object.keys(filter)[0];
+      const value = filter[field];
+      filterQuery = `WHERE ${field} = '${value}'`
+    }
+
+    const query = `
+    UPDATE
+    users
+    SET
+    ${updateString}
+    WHERE
+    ${filterQuery}`
+
+    console.log(query)
+
+    const user = await db.promise().query(query);
+
+    console.log(user);
+
+    if(filter){
+      return user[0][0];
+    } else {
+    return user[0];
+    }
+
   }
 }

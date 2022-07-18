@@ -12,4 +12,4 @@ userRoutes.post('/create', multer(multerConfig).single('image'), UserController.
 userRoutes.post('/login', UserController.login)
 userRoutes.get('/checkuser', UserController.checkUser)
 userRoutes.get('/:id', UserController.getUserById)
-
+userRoutes.patch('/edit', multer(multerConfig).single('image'), UserController.edit)

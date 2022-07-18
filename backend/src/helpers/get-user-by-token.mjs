@@ -17,7 +17,7 @@ export default async function getUserByToken(req, res){
     return
   }
 
-  const user = await User.find({id: decoded.id})
+  const user = await User.retrieve({id: decoded.id})
 
   user.password = undefined;
   
