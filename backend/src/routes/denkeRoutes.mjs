@@ -7,3 +7,4 @@ export const denkeRoutes = express.Router();
 
 denkeRoutes.post('/create', multer(multerConfig).single('image'), DenkeController.create)
 denkeRoutes.get('/:id', DenkeController.getDenkeById);
+denkeRoutes.get('/:id', DenkeController.getDenkes);

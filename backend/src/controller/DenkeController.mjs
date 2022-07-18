@@ -70,8 +70,10 @@ export default class DenkeController{
     } catch (error) {
       res.status(500).json({ message: error, errorOrigin: "DenkeController.getDenke" })
     }
+  }
 
-
+  static async getDenkes(req, res){
+    
   }
 
 }

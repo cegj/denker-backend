@@ -15,6 +15,6 @@ export default async function getUserByToken(req, res){
 
   user.password = undefined;
   
-  return user;
+  return user[0];
 
 }

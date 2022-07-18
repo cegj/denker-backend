@@ -91,7 +91,7 @@ export default class UserController{
   }
 
   static async checkUser(req, res){
-    const user = await getUserByToken(req, res);
+    let user = await getUserByToken(req, res);
 
     if(!user){
       res.status(404).json({message: "O usuário não foi encontrado"});
@@ -108,7 +108,8 @@ export default class UserController{
       return 
     }
 
-    const user = await User.retrieve({id});
+    let user = await User.retrieve({id});
+    user = user[0];
 
     if (!user){
       res.status(404).json({message: "Id inválido, o usuário não foi encontrado"});

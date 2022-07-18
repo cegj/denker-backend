@@ -55,12 +55,7 @@ export default class User{
     try {
 
       const user = await db.promise().query(query);
-
-      if(filter){
-        return user[0][0];
-      } else {
       return user[0];
-      }  
       
     } catch (error) {
       console.log(error)
