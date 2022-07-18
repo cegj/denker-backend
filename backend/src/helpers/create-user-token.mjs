@@ -1,6 +1,6 @@
 import jasonwebtoken from "jsonwebtoken";
 
-export function createUserToken(user, req, res) {
+export function createUserToken(user, req, res, message) {
 
   //create a token
   const token = jasonwebtoken.sign({
@@ -10,7 +10,7 @@ export function createUserToken(user, req, res) {
 
   //return token
   res.status(200).json({
-    message: "Você está autenticado",
+    message,
     token
   })
 

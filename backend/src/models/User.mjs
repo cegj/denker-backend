@@ -51,22 +51,21 @@ export default class User{
 
   static async update(filter, valuesToUpdate){
 
+    const toUpdateData = Object.entries(valuesToUpdate);
+
+    //Create string with values to update
     let updateString = "";
-    for (key in valuesToUpdate){
+    toUpdateData.forEach((data) => {
+      updateString += `${data[0]} = '${data[1]}',`
+    })
+    updateString = updateString.slice(0, -1); //remove last comma
 
-      console.log(key)
-
-      updateString += `${key} = ${valuesToUpdate[key]},`
-    }
-      updateString = updateString.slice(0, -1); //remove last comma
-
-    console.log(updateString);
-
+    //Create string with filter to find user
     let filterQuery = "";
     if(filter){
       const field = Object.keys(filter)[0];
       const value = filter[field];
-      filterQuery = `WHERE ${field} = '${value}'`
+      filterQuery = `${field} = '${value}'`
     }
 
     const query = `
@@ -77,17 +76,11 @@ export default class User{
     WHERE
     ${filterQuery}`
 
-    console.log(query)
+    await db.promise().query(query);
 
-    const user = await db.promise().query(query);
+    const updatedUser = await User.retrieve(filter);
 
-    console.log(user);
-
-    if(filter){
-      return user[0][0];
-    } else {
-    return user[0];
-    }
+    return updatedUser;
 
   }
 }

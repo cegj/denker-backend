@@ -4,6 +4,7 @@ import { createUserToken } from "../helpers/create-user-token.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
 
 export default class UserController{
+
   static async create(req, res){
 
     const { name, username, email, password, confirmpassword } = req.body;
@@ -63,7 +64,7 @@ export default class UserController{
 
       const createdUser = await User.create(newUser);
 
-      createUserToken(createdUser, req, res);
+      createUserToken(createdUser, req, res, "Usuário criado com sucesso");
       
     } catch (error) {
       res.status(500).json({ message: error })
@@ -86,7 +87,7 @@ export default class UserController{
       return
     }
 
-    createUserToken(user, req, res);
+    createUserToken(user, req, res, "Usuário autenticado com sucesso");
   }
 
   static async checkUser(req, res){
@@ -123,6 +124,11 @@ export default class UserController{
 
     let dataToUpdate = {}
 
+    if(!req.headers.authorization){
+      res.status(422).json({message: "O token de autenticação não foi informado"})
+      return
+    }
+
     const user = await getUserByToken(req, res);
 
     if(!user){
@@ -132,12 +138,6 @@ export default class UserController{
 
     const { name, username, email, password, confirmpassword } = req.body;
     
-    let image = "";
-    if(req.file){
-      image = req.file.filename;
-    }
-    dataToUpdate.image = image;
-
     // validate fields 
     
     if (!name){
@@ -175,6 +175,7 @@ export default class UserController{
     }
 
     const usedEmail = await User.retrieve({email: email});
+
     if (usedEmail && usedEmail.id !== user.id){
       res.status(422).json({message: "O e-mail já está em uso. Faça login ou escolha outro e-mail."})
       return
@@ -186,11 +187,15 @@ export default class UserController{
       return
     }
 
+    if(req.file){
+      dataToUpdate.image = req.file.filename;
+    }
+
     try {
 
       const updatedUser = await User.update({id: user.id}, dataToUpdate);
 
-      createUserToken(updatedUser, req, res);
+      createUserToken(updatedUser, req, res, "Usuário alterado com sucesso");
       
     } catch (error) {
       res.status(500).json({ message: error })
