@@ -98,7 +98,9 @@ export default class User{
     SET
     ${updateString}
     WHERE
-    ${filterQuery}`
+    ${filterQuery},
+    updatedAt = CURRENT_TIMESTAMP
+    `
 
     try {
       
