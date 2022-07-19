@@ -26,7 +26,7 @@ export default class User{
   
     try {
       
-      db.query(query);
+      await db.promise().query(query);
       return await getLastTableRow('users');  
       
     } catch (error) {

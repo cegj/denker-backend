@@ -24,7 +24,7 @@ export default class Denke{
   
     try {
       
-      db.query(query);
+      await db.promise().query(query);
       return await getLastTableRow('denkes');
       
     } catch (error) {
@@ -40,14 +40,18 @@ export default class Denke{
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (typeof(value) === "string"){
-        value = `'${value}'`
+      if (Array.isArray(value)){
+        const arrayToString = value.toString();
+        filterQuery = `WHERE ${field} in (${arrayToString})`
+      } else {
+        if (typeof(value) === "string"){
+          value = `'${value}'`
+        }
+        filterQuery = `WHERE ${field} = ${value}`
       }
-
-      filterQuery = `WHERE ${field} = ${value}`
     }
 
-    const query = `SELECT * FROM denkes ${filterQuery}`
+    const query = `SELECT * FROM denkes INNER JOIN users ON denkes.user_id = users.id ${filterQuery}`
 
     try {
 

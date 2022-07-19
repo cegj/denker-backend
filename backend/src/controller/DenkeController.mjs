@@ -1,4 +1,5 @@
 import Denke from "../models/Denke.mjs";
+import Follow from "../models/Follow.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
 
 export default class DenkeController{
@@ -73,7 +74,34 @@ export default class DenkeController{
   }
 
   static async getDenkes(req, res){
-    
+
+    if(!req.headers.authorization){
+      res.status(422).json({message: "O token de autenticação não foi informado"})
+      return
+    }
+
+    const user = await getUserByToken(req, res);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    const followings = await Follow.retrieve({follower_id: user.id});
+
+    let followingUsersIds = []
+    followings.forEach((followingUser) => {
+      followingUsersIds.push(followingUser.id)
+    })
+
+    try {
+
+      const denkes = await Denke.retrieve({user_id: followingUsersIds});
+      res.status(200).json({message: `Denkes recuperados com sucesso`, user, denkes});
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
+    }  
   }
 
 }
