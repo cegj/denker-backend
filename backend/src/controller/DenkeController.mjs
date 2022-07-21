@@ -105,7 +105,60 @@ export default class DenkeController{
   }
 
   static async edit(req, res){
-    //to implement
+
+    let dataToUpdate = {}
+
+    if(!req.headers.authorization){
+      res.status(422).json({message: "O token de autenticação não foi informado"})
+      return
+    }
+
+    const user = await getUserByToken(req, res);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    const id = req.params.id;
+    const content = req.body.content;
+
+    let denke = await Denke.retrieve({id});
+    denke = denke[0]
+
+    // check if denke exists
+    if (!denke){
+      res.status(404).json({message: "O Denke não foi localizado"});
+      return
+    }
+
+    // check if denke belongs to user
+    if (user.id !== denke.user_id){
+      res.status(401).json({message: "O Denke não pertence ao usuário"});
+      return
+    }
+
+    // validate fields 
+    if (!content){
+      res.status(422).json({message: "O conteúdo do Denke não pode ficar vazio"});
+      return
+    }
+
+    dataToUpdate.content = content;
+    
+    if(req.file){
+      dataToUpdate.image = req.file.filename;
+    }
+
+    try {
+
+      const updatedDenke = await Denke.update({id}, dataToUpdate);
+      res.status(200).json({message: "Denke editado com sucesso", updatedDenke})
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "UserController.edit" })
+    }
+
   }
 
   static async delete(req, res){

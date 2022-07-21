@@ -47,7 +47,7 @@ export default class Denke{
         if (typeof(value) === "string"){
           value = `'${value}'`
         }
-        filterQuery = `WHERE ${field} = ${value}`
+        filterQuery = `WHERE denkes.${field} = ${value}`
       }
     }
 
@@ -63,6 +63,52 @@ export default class Denke{
       console.log(error)
     }
 
+
+  }
+
+  static async update(filter, valuesToUpdate){
+
+    const toUpdateData = Object.entries(valuesToUpdate);
+
+    //Create string with values to update
+    let updateString = "";
+    toUpdateData.forEach((data) => {
+      updateString += `${data[0]} = '${data[1]}',`
+    })
+    updateString = updateString.slice(0, -1); //remove last comma
+
+    //Create string with filter to find denke
+    let filterQuery = "";
+    if(filter){
+      const field = Object.keys(filter)[0];
+      let value = filter[field];
+
+      if (typeof(value) === "string"){
+        value = `'${value}'`
+      }
+
+      filterQuery = `${field} = ${value}`
+    }
+
+    const query = `
+    UPDATE
+    denkes
+    SET
+    ${updateString},
+    updatedAt = CURRENT_TIMESTAMP
+    WHERE
+    ${filterQuery}
+    `
+
+    try {
+      
+      await db.promise().query(query);
+      const updatedDenke = await Denke.retrieve(filter);
+      return updatedDenke;
+
+    } catch (error) {
+      console.log(error)
+    }
 
   }
 

@@ -8,5 +8,5 @@ export const denkeRoutes = express.Router();
 denkeRoutes.get('/', DenkeController.getDenkes);
 denkeRoutes.post('/create', setDestPath, multer(multerConfig).single('image'), DenkeController.create)
 denkeRoutes.get('/:id', DenkeController.getDenkeById);
-denkeRoutes.patch('/:id', DenkeController.edit);
+denkeRoutes.patch('/:id', setDestPath, multer(multerConfig).single('image'), DenkeController.edit)
 denkeRoutes.delete('/:id', DenkeController.delete);
