@@ -59,13 +59,9 @@ export default class Follow{
 
     const query = `SELECT * FROM follows ${innerJoinQuery} ${filterQuery}`
 
-    console.log(query)
-
     try {
 
       const follows = await db.promise().query(query);
-
-      console.log(follows[0])
 
       return follows[0];
       

@@ -4,8 +4,10 @@ import { db } from "./db/db.mjs";
 import { routes } from "./routes/routes.mjs";
 import dotenv from "dotenv";
 
+// starts dotenv to read env variables
 dotenv.config();
 
+// starts app
 const app = express();
 
 // config json response

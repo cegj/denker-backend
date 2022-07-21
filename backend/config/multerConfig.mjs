@@ -6,7 +6,23 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const destPath = path.resolve(__dirname, '..', 'public', 'imgs');
+//define destPath
+export let destPath = path.resolve(__dirname, '..', 'public', 'imgs');
+export function setDestPath(req, res, next){
+
+  let lastFolder = ""; 
+
+  if (req.originalUrl.includes('/user')){
+    lastFolder = 'user'
+  } else if (req.originalUrl.includes('/denke')){
+    lastFolder = 'denke'
+  }
+
+  destPath = path.resolve(__dirname, '..', 'public', 'imgs', lastFolder);
+
+  next()
+}
+
 
 export const multerConfig = {
   dest: destPath,
