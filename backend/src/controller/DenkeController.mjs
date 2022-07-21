@@ -156,13 +156,50 @@ export default class DenkeController{
       res.status(200).json({message: "Denke editado com sucesso", updatedDenke})
       
     } catch (error) {
-      res.status(500).json({ message: error, errorOrigin: "UserController.edit" })
+      res.status(500).json({ message: error, errorOrigin: "DenkeController.edit" })
     }
 
   }
 
   static async delete(req, res){
-    //to implement
+    if(!req.headers.authorization){
+      res.status(422).json({message: "O token de autenticação não foi informado"})
+      return
+    }
+
+    const user = await getUserByToken(req, res);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    const id = req.params.id;
+
+    let denke = await Denke.retrieve({id});
+    denke = denke[0];
+
+    // check if denke exists
+    if (!denke){
+      res.status(404).json({message: "O Denke não foi localizado"});
+      return
+    }
+
+    // check if denke belongs to user
+    if (user.id !== denke.user_id){
+      res.status(401).json({message: "O Denke não pertence ao usuário"});
+      return
+    }
+
+    try {
+
+      const deletedDenke = await Denke.delete({id});
+
+      res.status(200).json({message: "Denke removido com sucesso"})
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "DenkeController.delete" })
+    }
   }
 
 }

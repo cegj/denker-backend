@@ -112,4 +112,32 @@ export default class Denke{
 
   }
 
+  static async delete(filter){
+        //Create string with filter to find user
+        let filterQuery = "";
+        if(filter){
+          const field = Object.keys(filter)[0];
+          let value = filter[field];
+    
+          if (typeof(value) === "string"){
+            value = `'${value}'`
+          }
+    
+          filterQuery = `${field} = ${value}`
+        }
+    
+        const query = `DELETE FROM denkes WHERE ${filterQuery}`
+    
+        try {
+    
+          const deletedDenke = await Denke.retrieve(filter);
+          await db.promise().query(query);
+          return deletedDenke;
+    
+        } catch (error) {
+          console.log(error)
+          return new Error(error);
+        }
+  }
+
 }
