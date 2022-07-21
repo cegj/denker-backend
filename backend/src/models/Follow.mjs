@@ -28,6 +28,7 @@ export default class Follow{
       
     } catch (error) {
       console.log(error)
+      return new Error(error);    
     }
 
   }
@@ -67,9 +68,8 @@ export default class Follow{
       
     } catch (error) {
       console.log(error)
+      return new Error(error);    
     }
-
-
   }
 
   static async delete(follow){
@@ -84,6 +84,7 @@ export default class Follow{
 
     } catch (error) {
       console.log(error)
+      return new Error(error);    
     }
   }    
 }

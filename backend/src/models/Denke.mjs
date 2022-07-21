@@ -28,7 +28,8 @@ export default class Denke{
       return await getLastTableRow('denkes');
       
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      return new Error(error);
     }
 
   }
@@ -60,7 +61,8 @@ export default class Denke{
       return denke[0];
       
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      return new Error(error);
     }
 
 
@@ -107,7 +109,8 @@ export default class Denke{
       return updatedDenke;
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      return new Error(error);
     }
 
   }
