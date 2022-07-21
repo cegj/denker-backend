@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import { db } from "./db/db.mjs";
 import { routes } from "./routes/routes.mjs";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -9,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded( {extended: true }))
 
-// allow cors
+// allow cors to frontend
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 // public folder for images
@@ -20,7 +23,7 @@ app.use(routes);
 
 // connect to db and start aplication
 try {
-  app.listen(5000)
+  app.listen(process.env.PORT)
   console.log("Aplicação em execução")
 
 } catch (error) {

@@ -104,4 +104,12 @@ export default class DenkeController{
     }  
   }
 
+  static async edit(req, res){
+    //to implement
+  }
+
+  static async delete(req, res){
+    //to implement
+  }
+
 }

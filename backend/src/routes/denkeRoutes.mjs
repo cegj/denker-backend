@@ -5,6 +5,8 @@ import DenkeController from "../controller/DenkeController.mjs";
 
 export const denkeRoutes = express.Router();
 
+denkeRoutes.get('/', DenkeController.getDenkes);
 denkeRoutes.post('/create', multer(multerConfig).single('image'), DenkeController.create)
 denkeRoutes.get('/:id', DenkeController.getDenkeById);
-denkeRoutes.get('/', DenkeController.getDenkes);
+denkeRoutes.patch('/:id', DenkeController.edit);
+denkeRoutes.delete('/:id', DenkeController.delete);
