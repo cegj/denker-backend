@@ -68,7 +68,19 @@ firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
       FOREIGN KEY (followed_id) REFERENCES users(id),
       FOREIGN KEY (follower_id) REFERENCES users(id)
     ) ENGINE=INNODB
-    `
-  );
+    `)
+
+    db.query(`
+    CREATE TABLE IF NOT EXISTS likes
+    (
+      id INT(11) PRIMARY KEY AUTO_INCREMENT,
+      user_id INT(11) NOT NULL,
+      denke_id INT(11) NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (denke_id) REFERENCES denkes(id),
+      createdAt DATETIME NOT NULL,
+      updatedAt DATETIME NOT NULL
+    )
+    `);
   })
 })
