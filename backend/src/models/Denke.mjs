@@ -59,7 +59,7 @@ export default class Denke{
     denkes.image,
     denkes.createdAt,
     denkes.updatedAt,
-    denkes.denke_id AS replyTo_id,
+    denkes.denke_id,
     users.id AS user_id,
     users.name AS user_name,
     users.username AS user_username,

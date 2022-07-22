@@ -56,6 +56,12 @@ export default class DenkeController{
       let denke = await Denke.retrieve({id});
       denke = denke[0];
 
+      // check if denke exists
+      if (!denke){
+        res.status(404).json({message: "O Denke não foi localizado"});
+        return
+      }
+
       let replyTo = {}
       if (denke.denke_id){
         replyTo = await Denke.retrieve({id: denke.denke_id})
@@ -63,14 +69,10 @@ export default class DenkeController{
 
       const replies = await Denke.retrieve({denke_id: id});
 
-      if (denke){
-        res.status(200).json({message: "Denke obtido com sucesso", denke, replies, replyTo})
-      } else {
-        res.status(422).json({message: "O denke solicitado não foi localizado (id inválido)"})
-      }
+      res.status(200).json({message: "Denke obtido com sucesso", denke, replies, replyTo})
 
     } catch (error) {
-      res.status(500).json({ message: error, errorOrigin: "DenkeController.getDenke" })
+      res.status(500).json({ message: error, errorOrigin: "DenkeController.getDenkeById" })
     }
   }
 
@@ -126,8 +128,6 @@ export default class DenkeController{
 
     let denke = await Denke.retrieve({id});
     denke = denke[0]
-
-    console.log(denke)
 
     // check if denke exists
     if (!denke){
