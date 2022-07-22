@@ -74,7 +74,6 @@ export default class User{
     toUpdateData.forEach((data) => {
       updateString += `${data[0]} = '${data[1]}',`
     })
-    updateString = updateString.slice(0, -1); //remove last comma
 
     //Create string with filter to find user
     let filterQuery = "";
@@ -94,9 +93,9 @@ export default class User{
     users
     SET
     ${updateString}
-    WHERE
-    ${filterQuery},
     updatedAt = CURRENT_TIMESTAMP
+    WHERE
+    ${filterQuery}
     `
 
     try {

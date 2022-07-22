@@ -177,14 +177,17 @@ export default class UserController{
       dataToUpdate.password = passwordHash;
     }
 
-    const usedEmail = await User.retrieve({email: email});
+    let usedEmail = await User.retrieve({email: email});
+    usedEmail = usedEmail[0]
 
     if (usedEmail && usedEmail.id !== user.id){
       res.status(422).json({message: "O e-mail já está em uso. Faça login ou escolha outro e-mail."})
       return
     }
 
-    const usedUsername = await User.retrieve({username});
+    let usedUsername = await User.retrieve({username});
+    usedUsername = usedUsername[0]
+
     if (usedUsername  && usedUsername.id !== user.id){
       res.status(422).json({message: "O nome de usuário já está em uso, escolha outro."})
       return
