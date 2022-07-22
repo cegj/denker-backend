@@ -42,7 +42,18 @@ export default class Like {
 
     const query = `
     SELECT
-    *
+    denkes.id AS denke_id,
+    denkes.content AS denke_content,
+    denkes.image AS denke_image,
+    denkes.createdAt AS denke_createdAt,
+    denkes.updatedAt AS denke_updatedAt,
+    users.id AS user_id,
+    users.name AS user_name,
+    users.username AS user_username,
+    users.email AS user_email,
+    users.image AS user_image,
+    users.createdAt AS user_createdAt,
+    users.updatedAt AS user_updatedAt
     FROM
     likes
     INNER JOIN

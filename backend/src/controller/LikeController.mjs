@@ -1,6 +1,7 @@
 import Like from "../models/Like.mjs";
 import Denke from "../models/Denke.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
+import getUserById from "../helpers/get-user-by-id.mjs";
 
 export default class LikeController{
 
@@ -110,18 +111,74 @@ export default class LikeController{
       res.status(200).json({message: "Denke descurtido com sucesso", unlikedDenke})
       
     } catch (error) {
-
       res.status(500).json({ message: error, errorOrigin: "LikeController.unlike" })
-
     }  
 
   }
 
   static async getUserLikes(req, res){
 
+    let like = {};
+
+    const userId = req.params.id;
+
+    const user = await getUserById(userId);
+
+    if(!user){
+      res.status(404).json({message: "O usuário não foi encontrado"});
+      return
+    }
+
+    like.user_id = user.id;
+
+    try {
+
+      const userLikes = await Like.retrieve(like);
+      res.status(200).send({message: "Curtidas do usuário resgatadas com sucesso", userLikes})
+      
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "LikeController.getUserLikes" })
+    }  
+
   }
 
   static async getDenkeLikes(req, res){
+
+    let like = {};
+
+    const denkeId = req.params.id;
+
+    if(!denkeId){
+      res.status(404).json({message: "O id do Denke não foi informado"});
+      return
+    }
+
+    // check if denke exists
+    const denke = await Denke.retrieve({id: denkeId});
+
+    if (!denke[0]){
+      res.status(404).json({message: "O denke não foi localizado"})
+      return
+    }
+
+    like.denke_id = denkeId;
+
+    try {
+      const denkeLikes = await Like.retrieve(like);
+
+      // clean denke data of entries, because it will be send on denke object
+      denkeLikes.forEach((denke) => {
+        denke.denke_id = undefined;
+        denke.denke_content = undefined;
+        denke.denke_image = undefined;
+        denke.denke_createdAt = undefined; 
+        denke.denke_updatedAt = undefined;
+      })
+
+      res.status(200).send({message: "Curtidas do usuário resgatadas com sucesso", denke, denkeLikes}); 
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "LikeController.getUserLikes" })
+    }  
 
   }
 }
