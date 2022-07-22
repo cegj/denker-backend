@@ -2,6 +2,7 @@ import User from "../models/User.mjs";
 import bcrypt from "bcrypt";
 import { createUserToken } from "../helpers/create-user-token.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
+import deleteImgFile from "../helpers/delete-img-file.mjs";
 
 export default class UserController{
 
@@ -190,6 +191,7 @@ export default class UserController{
     }
 
     if(req.file){
+      deleteImgFile(user.image, 'user');
       dataToUpdate.image = req.file.filename;
     }
 
@@ -218,6 +220,8 @@ export default class UserController{
       res.status(404).json({message: "O usuário não foi encontrado"});
       return
     }
+
+    deleteImgFile(user.image, 'user');
 
     try {
 

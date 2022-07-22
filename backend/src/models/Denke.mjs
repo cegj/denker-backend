@@ -52,7 +52,26 @@ export default class Denke{
       }
     }
 
-    const query = `SELECT * FROM denkes INNER JOIN users ON denkes.user_id = users.id ${filterQuery}`
+    const query = `
+    SELECT
+    denkes.id,
+    denkes.content,
+    denkes.image,
+    denkes.createdAt,
+    denkes.updatedAt,
+    denkes.denke_id AS replyTo_id,
+    users.id AS user_id,
+    users.name AS user_name,
+    users.username AS user_username,
+    users.email AS user_email,
+    users.image AS user_image
+    FROM
+    denkes
+    INNER JOIN
+    users
+    ON
+    denkes.user_id = users.id 
+    ${filterQuery}`
 
     try {
 

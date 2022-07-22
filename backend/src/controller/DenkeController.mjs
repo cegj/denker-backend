@@ -1,6 +1,7 @@
 import Denke from "../models/Denke.mjs";
 import Follow from "../models/Follow.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
+import deleteImgFile from "../helpers/delete-img-file.mjs";
 
 export default class DenkeController{
 
@@ -126,6 +127,8 @@ export default class DenkeController{
     let denke = await Denke.retrieve({id});
     denke = denke[0]
 
+    console.log(denke)
+
     // check if denke exists
     if (!denke){
       res.status(404).json({message: "O Denke não foi localizado"});
@@ -147,6 +150,7 @@ export default class DenkeController{
     dataToUpdate.content = content;
     
     if(req.file){
+      deleteImgFile(denke.image, 'denke');
       dataToUpdate.image = req.file.filename;
     }
 
@@ -190,6 +194,8 @@ export default class DenkeController{
       res.status(401).json({message: "O Denke não pertence ao usuário"});
       return
     }
+
+    deleteImgFile(denke.image, 'denke');
 
     try {
 
