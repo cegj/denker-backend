@@ -177,7 +177,7 @@ export default class LikeController{
 
       res.status(200).send({message: "Curtidas do usuário resgatadas com sucesso", denke, denkeLikes}); 
     } catch (error) {
-      res.status(500).json({ message: error, errorOrigin: "LikeController.getUserLikes" })
+      res.status(500).json({ message: error, errorOrigin: "LikeController.getDenkeLikes" })
     }  
 
   }
