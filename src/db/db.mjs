@@ -1,7 +1,7 @@
 import mysql from "mysql2"
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
 let options = {
   host: process.env.DB_HOST,
