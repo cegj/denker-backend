@@ -12,10 +12,10 @@ const app = express();
 
 // config json response
 app.use(express.json());
-app.use(express.urlencoded( {extended: true }))
+app.use(express.urlencoded({ extended: true }))
 
 // allow cors to frontend
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
 
 // public folder for images
 app.use(express.static('public'));

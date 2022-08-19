@@ -22,10 +22,10 @@ const firstConn = mysql.connect({
 })
 
 firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
-.then((err) => {
-  if (err){ console.log };
+  .then((err) => {
+    if (err) { console.log };
 
-  db.promise().query(`
+    db.promise().query(`
   CREATE TABLE IF NOT EXISTS users
   (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -38,10 +38,10 @@ firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
     updatedAt DATETIME NOT NULL
   ) ENGINE=INNODB
   `
-  )
-  .then(() => {
+    )
+      .then(() => {
 
-    db.query(`
+        db.query(`
     CREATE TABLE IF NOT EXISTS denkes
     (
       id INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -55,9 +55,9 @@ firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
       FOREIGN KEY (denke_id) REFERENCES denkes(id)
     ) ENGINE=INNODB
     `
-    );
-  
-    db.query(`
+        );
+
+        db.query(`
     CREATE TABLE IF NOT EXISTS follows
     (
       id INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -70,7 +70,7 @@ firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
     ) ENGINE=INNODB
     `)
 
-    db.query(`
+        db.query(`
     CREATE TABLE IF NOT EXISTS likes
     (
       id INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -82,5 +82,5 @@ firstConn.promise().query(`CREATE DATABASE IF NOT EXISTS ${options.database};`)
       updatedAt DATETIME NOT NULL
     )
     `);
+      })
   })
-})
