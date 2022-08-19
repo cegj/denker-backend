@@ -25,9 +25,8 @@ app.use(routes);
 
 // connect to db and start aplication
 try {
-  app.listen(process.env.PORT || 3000)
+  app.listen(process.env.PORT || 5000)
   console.log("Aplicação em execução")
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 
 } catch (error) {
   console.log("Erro ao iniciar a aplicação:")
