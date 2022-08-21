@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { db } from "./db/db.mjs";
 import { routes } from "./routes/routes.mjs";
 
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 // starts app
 const app = express();
