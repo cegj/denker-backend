@@ -19,7 +19,7 @@ routes.get('/', (req, res) => {
 console.log
 
 routes.use('/public', express.static('public'));
-routes.use('/user', userRoutes);
-routes.use('/denke', denkeRoutes);
-routes.use('/follow', followRoutes);
-routes.use('/like', likeRoutes);
+routes.use('/user', express.json(), express.urlencoded({ extended: true }), userRoutes);
+routes.use('/denke', express.json(), express.urlencoded({ extended: true }), denkeRoutes);
+routes.use('/follow', express.json(), express.urlencoded({ extended: true }), followRoutes);
+routes.use('/like', express.json(), express.urlencoded({ extended: true }), likeRoutes);
