@@ -210,11 +210,6 @@ export default class DenkeController {
   }
 
   static async getDenkesByUser(req, res) {
-    if (!req.headers.authorization) {
-      res.status(422).json({ message: "O token de autenticação não foi informado" })
-      return
-    }
-
     const id = req.params.id;
 
     const user = await getUserById(id);
