@@ -1,4 +1,7 @@
 import jasonwebtoken from "jsonwebtoken";
+// import dotenv from "dotenv";
+
+// dotenv.config();
 
 export function createUserToken(user, req, res, message) {
 
@@ -6,7 +9,7 @@ export function createUserToken(user, req, res, message) {
   const token = jasonwebtoken.sign({
     name: user.name,
     id: user.id
-  }, "secret")
+  }, process.env.JTW_SECRET)
 
   //return token
   res.status(200).json({

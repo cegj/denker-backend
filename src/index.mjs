@@ -11,14 +11,16 @@ import { routes } from "./routes/routes.mjs";
 const app = express();
 
 // config json response
-app.use(express.json());
+// app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 // allow cors to frontend
 app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
 
-// public folder for images
-app.use(express.static('public'));
+// // public folder for images
+// // app.set('*/img', express.static(path.join(__dirname, 'public')));
+// // app.use('*/img', express.static('public'));
+// app.use(express.static('public'));
 
 // routes
 app.use(routes);
