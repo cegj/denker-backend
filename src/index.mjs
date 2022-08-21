@@ -2,17 +2,16 @@ import express from "express";
 import cors from "cors";
 import { db } from "./db/db.mjs";
 import { routes } from "./routes/routes.mjs";
-// import dotenv from "dotenv";
 
-// starts dotenv to read env variables
+// import dotenv from "dotenv";
 // dotenv.config();
 
 // starts app
 const app = express();
 
 // config json response
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 // allow cors to frontend
 app.use(cors({ credentials: true, origin: process.env.CORS_ORIGIN }));
