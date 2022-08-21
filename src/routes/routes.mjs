@@ -18,7 +18,7 @@ routes.get('/', (req, res) => {
 
 console.log
 
-routes.use('/public', express.static(__dirname + '/public'));
+routes.use('/public', express.static('public'));
 routes.use('/user', userRoutes);
 routes.use('/denke', denkeRoutes);
 routes.use('/follow', followRoutes);

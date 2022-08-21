@@ -5,11 +5,13 @@ import jasonwebtoken from "jsonwebtoken";
 
 export function createUserToken(user, req, res, message) {
 
+  const secret = process.env.JWT_SECRET;
+
   //create a token
   const token = jasonwebtoken.sign({
     name: user.name,
     id: user.id
-  }, process.env.JTW_SECRET)
+  }, secret)
 
   //return token
   res.status(200).json({
