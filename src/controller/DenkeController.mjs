@@ -2,6 +2,7 @@ import Denke from "../models/Denke.mjs";
 import Follow from "../models/Follow.mjs";
 import getUserByToken from "../helpers/get-user-by-token.mjs";
 import deleteImgFile from "../helpers/delete-img-file.mjs";
+import getUserById from "../helpers/get-user-by-id.mjs";
 
 export default class DenkeController {
 
@@ -205,6 +206,31 @@ export default class DenkeController {
 
     } catch (error) {
       res.status(500).json({ message: error, errorOrigin: "DenkeController.delete" })
+    }
+  }
+
+  static async getDenkesByUser(req, res) {
+    if (!req.headers.authorization) {
+      res.status(422).json({ message: "O token de autenticação não foi informado" })
+      return
+    }
+
+    const id = req.params.id;
+
+    const user = await getUserById(id);
+
+    if (!user) {
+      res.status(404).json({ message: "O usuário não foi encontrado" });
+      return
+    }
+
+    try {
+
+      const denkes = await Denke.retrieve({ user_id: user.id });
+      res.status(200).json({ message: `Denkes recuperados com sucesso`, user, denkes });
+
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
     }
   }
 }
