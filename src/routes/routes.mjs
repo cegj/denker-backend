@@ -16,9 +16,9 @@ routes.get('/', (req, res) => {
   res.json({ message: "Welcome to Denker api" })
 })
 
-console.log(__dirname + '/public')
+console.log
 
-routes.use(express.static('public'));
+routes.use('/public', express.static(__dirname + '/public'));
 routes.use('/user', userRoutes);
 routes.use('/denke', denkeRoutes);
 routes.use('/follow', followRoutes);
