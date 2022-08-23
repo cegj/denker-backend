@@ -1,9 +1,9 @@
 import { db } from "../db/db.mjs";
 import getLastTableRow from "../helpers/get-last-row-table.mjs";
 
-export default class Denke{
+export default class Denke {
 
-  static async create(denke){
+  static async create(denke) {
 
     const query = `
     INSERT INTO denkes
@@ -21,12 +21,12 @@ export default class Denke{
     ${denke.user_id},
     ${denke.denke_id})
     `
-  
+
     try {
-      
+
       await db.promise().query(query);
       return await getLastTableRow('denkes');
-      
+
     } catch (error) {
       console.log(error);
       return new Error(error);
@@ -34,18 +34,18 @@ export default class Denke{
 
   }
 
-  static async retrieve(filter){
+  static async retrieve(filter) {
 
     let filterQuery = "";
-    if(filter){
+    if (filter) {
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (Array.isArray(value)){
+      if (Array.isArray(value)) {
         const arrayToString = value.toString();
         filterQuery = `WHERE ${field} in (${arrayToString})`
       } else {
-        if (typeof(value) === "string"){
+        if (typeof (value) === "string") {
           value = `'${value}'`
         }
         filterQuery = `WHERE denkes.${field} = ${value}`
@@ -78,16 +78,54 @@ export default class Denke{
       const denke = await db.promise().query(query);
 
       return denke[0];
-      
+
     } catch (error) {
       console.log(error);
       return new Error(error);
     }
-
-
   }
 
-  static async update(filter, valuesToUpdate){
+  static async count(filter) {
+
+    let filterQuery = "";
+    if (filter) {
+      const field = Object.keys(filter)[0];
+      let value = filter[field];
+
+      if (Array.isArray(value)) {
+        const arrayToString = value.toString();
+        filterQuery = `WHERE ${field} in (${arrayToString})`
+      } else {
+        if (typeof (value) === "string") {
+          value = `'${value}'`
+        }
+        filterQuery = `WHERE denkes.${field} = ${value}`
+      }
+    }
+
+    const query = `
+    SELECT COUNT (*)
+    FROM
+    denkes
+    INNER JOIN
+    users
+    ON
+    denkes.user_id = users.id 
+    ${filterQuery}`
+
+    try {
+
+      const count = await db.promise().query(query);
+
+      return count[0];
+
+    } catch (error) {
+      console.log(error);
+      return new Error(error);
+    }
+  }
+
+  static async update(filter, valuesToUpdate) {
 
     const toUpdateData = Object.entries(valuesToUpdate);
 
@@ -100,11 +138,11 @@ export default class Denke{
 
     //Create string with filter to find denke
     let filterQuery = "";
-    if(filter){
+    if (filter) {
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (typeof(value) === "string"){
+      if (typeof (value) === "string") {
         value = `'${value}'`
       }
 
@@ -122,7 +160,7 @@ export default class Denke{
     `
 
     try {
-      
+
       await db.promise().query(query);
       const updatedDenke = await Denke.retrieve(filter);
       return updatedDenke;
@@ -134,32 +172,32 @@ export default class Denke{
 
   }
 
-  static async delete(filter){
-        //Create string with filter to find user
-        let filterQuery = "";
-        if(filter){
-          const field = Object.keys(filter)[0];
-          let value = filter[field];
-    
-          if (typeof(value) === "string"){
-            value = `'${value}'`
-          }
-    
-          filterQuery = `${field} = ${value}`
-        }
-    
-        const query = `DELETE FROM denkes WHERE ${filterQuery}`
-    
-        try {
-    
-          const deletedDenke = await Denke.retrieve(filter);
-          await db.promise().query(query);
-          return deletedDenke;
-    
-        } catch (error) {
-          console.log(error)
-          return new Error(error);
-        }
+  static async delete(filter) {
+    //Create string with filter to find user
+    let filterQuery = "";
+    if (filter) {
+      const field = Object.keys(filter)[0];
+      let value = filter[field];
+
+      if (typeof (value) === "string") {
+        value = `'${value}'`
+      }
+
+      filterQuery = `${field} = ${value}`
+    }
+
+    const query = `DELETE FROM denkes WHERE ${filterQuery}`
+
+    try {
+
+      const deletedDenke = await Denke.retrieve(filter);
+      await db.promise().query(query);
+      return deletedDenke;
+
+    } catch (error) {
+      console.log(error)
+      return new Error(error);
+    }
   }
 
 }

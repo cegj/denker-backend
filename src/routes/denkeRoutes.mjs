@@ -9,5 +9,6 @@ denkeRoutes.get('/', DenkeController.getDenkes);
 denkeRoutes.post('/create', setDestPath, multer(multerConfig).single('image'), DenkeController.create)
 denkeRoutes.get('/:id', DenkeController.getDenkeById);
 denkeRoutes.get('/user/:id', DenkeController.getDenkesByUser);
+denkeRoutes.get('/replies/:id', DenkeController.getRepliesById);
 denkeRoutes.patch('/:id', setDestPath, multer(multerConfig).single('image'), DenkeController.edit)
 denkeRoutes.delete('/:id', DenkeController.delete);

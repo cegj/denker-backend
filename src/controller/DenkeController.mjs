@@ -68,12 +68,25 @@ export default class DenkeController {
         replyTo = await Denke.retrieve({ id: denke.denke_id })
       }
 
-      const replies = await Denke.retrieve({ denke_id: id });
-
-      res.status(200).json({ message: "Denke obtido com sucesso", denke, replies, replyTo })
+      res.status(200).json({ message: "Denke obtido com sucesso", denke, replyTo })
 
     } catch (error) {
       res.status(500).json({ message: error, errorOrigin: "DenkeController.getDenkeById" })
+    }
+  }
+
+  static async getRepliesById(req, res) {
+
+    const id = req.params.id;
+
+    try {
+
+      const replies = await Denke.retrieve({ denke_id: id });
+
+      res.status(200).json({ message: "Respostas obtidas com sucesso", replies })
+
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "DenkeController.getRepliesById" })
     }
   }
 
@@ -93,7 +106,7 @@ export default class DenkeController {
 
     const followings = await Follow.retrieve({ follower_id: user.id });
 
-    let followingUsersIds = []
+    let followingUsersIds = [user.id]
     followings.forEach((followingUser) => {
       followingUsersIds.push(followingUser.id)
     })
@@ -101,6 +114,26 @@ export default class DenkeController {
     try {
 
       const denkes = await Denke.retrieve({ user_id: followingUsersIds });
+      res.status(200).json({ message: `Denkes recuperados com sucesso`, user, denkes });
+
+    } catch (error) {
+      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
+    }
+  }
+
+  static async getDenkesByUser(req, res) {
+    const id = req.params.id;
+
+    const user = await getUserById(id);
+
+    if (!user) {
+      res.status(404).json({ message: "O usuário não foi encontrado" });
+      return
+    }
+
+    try {
+
+      const denkes = await Denke.retrieve({ user_id: user.id });
       res.status(200).json({ message: `Denkes recuperados com sucesso`, user, denkes });
 
     } catch (error) {
@@ -209,23 +242,5 @@ export default class DenkeController {
     }
   }
 
-  static async getDenkesByUser(req, res) {
-    const id = req.params.id;
 
-    const user = await getUserById(id);
-
-    if (!user) {
-      res.status(404).json({ message: "O usuário não foi encontrado" });
-      return
-    }
-
-    try {
-
-      const denkes = await Denke.retrieve({ user_id: user.id });
-      res.status(200).json({ message: `Denkes recuperados com sucesso`, user, denkes });
-
-    } catch (error) {
-      res.status(500).json({ message: error, errorOrigin: "FollowController.unfollow" })
-    }
-  }
 }
