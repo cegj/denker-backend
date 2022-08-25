@@ -125,6 +125,32 @@ export default class UserController {
     res.status(200).json({ user });
   }
 
+  static async findUser(req, res) {
+    const query = req.query.q;
+
+    if (!query) {
+      res.status(422).json({ message: "Não foram informados parâmetros de busca" });
+      return
+    }
+
+    let result = [];
+    result.push(await User.retrieve({ name: query }, true));
+    result.push(await User.retrieve({ username: query }, true));
+    result.push(await User.retrieve({ email: query }, true));
+
+    console.log(result)
+
+    //Remove duplicated results
+    result = [...new Set(result[0])]
+
+    //Remove passwords from results
+    result.forEach((r) => {
+      r.password = undefined;
+    })
+
+    res.status(200).json({ result });
+  }
+
   static async edit(req, res) {
 
     let dataToUpdate = {}

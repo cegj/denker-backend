@@ -1,9 +1,9 @@
 import { db } from "../db/db.mjs";
 import getLastTableRow from "../helpers/get-last-row-table.mjs";
 
-export default class User{
+export default class User {
 
-  static async create(user){
+  static async create(user) {
 
     const query = `
     INSERT INTO users
@@ -23,32 +23,34 @@ export default class User{
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP)
     `
-  
+
     try {
-      
+
       await db.promise().query(query);
-      return await getLastTableRow('users');  
-      
+      return await getLastTableRow('users');
+
     } catch (error) {
       console.log(error)
-      return new Error(error);    
+      return new Error(error);
     }
 
   }
 
-  static async retrieve(filter){
+  static async retrieve(filter, like = false) {
 
     //Create string with filter to find user
     let filterQuery = "";
-    if(filter){
+    if (filter) {
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (typeof(value) === "string"){
-        value = `'${value}'`
+      if (like) filterQuery = `WHERE ${field} LIKE '%${value}%'`
+      else {
+        if (typeof (value) === "string") {
+          value = `'${value}'`
+        }
+        filterQuery = `WHERE ${field} = ${value}`
       }
-
-      filterQuery = `WHERE ${field} = ${value}`
     }
 
     const query = `SELECT * FROM users ${filterQuery}`
@@ -57,15 +59,15 @@ export default class User{
 
       const user = await db.promise().query(query);
       return user[0];
-      
+
     } catch (error) {
       console.log(error)
-      return new Error(error);    
+      return new Error(error);
     }
 
   }
 
-  static async update(filter, valuesToUpdate){
+  static async update(filter, valuesToUpdate) {
 
     const toUpdateData = Object.entries(valuesToUpdate);
 
@@ -77,11 +79,11 @@ export default class User{
 
     //Create string with filter to find user
     let filterQuery = "";
-    if(filter){
+    if (filter) {
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (typeof(value) === "string"){
+      if (typeof (value) === "string") {
         value = `'${value}'`
       }
 
@@ -99,26 +101,26 @@ export default class User{
     `
 
     try {
-      
+
       await db.promise().query(query);
       const updatedUser = await User.retrieve(filter);
       return updatedUser;
 
     } catch (error) {
       console.log(error)
-      return new Error(error);    
+      return new Error(error);
     }
   }
 
-  static async delete(filter){
+  static async delete(filter) {
 
     //Create string with filter to find user
     let filterQuery = "";
-    if(filter){
+    if (filter) {
       const field = Object.keys(filter)[0];
       let value = filter[field];
 
-      if (typeof(value) === "string"){
+      if (typeof (value) === "string") {
         value = `'${value}'`
       }
 
@@ -135,7 +137,7 @@ export default class User{
 
     } catch (error) {
       console.log(error)
-      return new Error(error);    
+      return new Error(error);
     }
   }
 }
