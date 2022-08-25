@@ -71,7 +71,8 @@ export default class Denke {
     users
     ON
     denkes.user_id = users.id 
-    ${filterQuery}`
+    ${filterQuery}
+    ORDER BY denkes.updatedAt DESC`
 
     try {
 
