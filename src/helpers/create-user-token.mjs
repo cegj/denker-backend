@@ -1,7 +1,7 @@
 import jasonwebtoken from "jsonwebtoken";
 
-// import dotenv from "dotenv";
-// dotenv.config();
+import dotenv from "dotenv";
+dotenv.config();
 
 export function createUserToken(user, req, res, message) {
 

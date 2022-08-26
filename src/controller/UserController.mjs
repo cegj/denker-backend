@@ -88,7 +88,7 @@ export default class UserController {
 
     const passwordMatches = await bcrypt.compare(password, user.password);
     if (!passwordMatches) {
-      res.status(422).json({ message: "As senhas não conferem, tente novamente" });
+      res.status(422).json({ message: "Senha incorreta, tente novamente" });
       return
     }
 
@@ -101,6 +101,8 @@ export default class UserController {
     if (!user) {
       res.status(404).json({ message: "O usuário não foi encontrado" });
     }
+
+    user.password = undefined;
 
     res.status(200).json({ user });
   }
@@ -229,6 +231,8 @@ export default class UserController {
     try {
 
       const updatedUser = await User.update({ id: user.id }, dataToUpdate);
+
+      console.log(updatedUser)
 
       createUserToken(updatedUser, req, res, "Usuário alterado com sucesso");
 

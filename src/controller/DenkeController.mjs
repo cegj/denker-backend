@@ -104,6 +104,8 @@ export default class DenkeController {
       return
     }
 
+    user.password = undefined;
+
     const followings = await Follow.retrieve({ follower_id: user.id });
 
     let followingUsersIds = [user.id]
@@ -130,6 +132,8 @@ export default class DenkeController {
       res.status(404).json({ message: "O usuário não foi encontrado" });
       return
     }
+
+    user.password = undefined;
 
     try {
 

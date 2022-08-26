@@ -12,15 +12,11 @@
 
 # Denker (frontend)
 
-Criado por [mim](https://github.com/cegj), com **React**, para fins de aprendizado.
+Criado por [mim](https://github.com/cegj), com **Node JS**, para fins de aprendizado.
 
-Denker é uma rede social para compartilhar seus pensamentos e acompanhar os pensamentos dos seus amigos.
+Este é o repositório do backend do projeto [Denker](https://github.com/cegj/denker-frontend/blob/main/README.md), desenvolvido com NODE JS + Express + Json Web Token. A interação é realizada por meio de requisições HTTP nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em JSON. A autenticação (nos endpoints que exigem) é feita via Json Web Token. 
 
-💡 Denker significa "pensador" em alemão. Na rede social, denker é um usuário, e denkes são seus posts.
-
-Este é o repositório do backend, desenvolvido com NODE JS + Express + Json Web Token. A interação é realizada por meio de requisições HTTP nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em JSON. A autenticação (nos endpoints que exigem) é feita via Json Web Token. 
-
-O projeto está estruturado seguindo a arquitetura MVC, e as queries SQL dos *models* para interação com o banco de dados foram escritas por mim, assim como os *controllers* e todos os demais códigos.
+O projeto está estruturado seguindo a arquitetura MVC, e as queries SQL dos *models* para interação com o banco de dados foram escritas por mim, assim como toda a lógica dos *controllers* e todos os demais códigos.
 
 ## Stack
 
@@ -36,8 +32,53 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
 2. Endpoints para criar (POST) usuários, publicações, seguidores e curtidas via HTTP request;
 3. Endpoints para editar (PATCH) usuários e publicações via HTTP request;
 4. Endpoints para apagar (DELETE) usuários, publicações, seguidores e curtidas via HTTP request;
-5. Endpoints de acesso livre e endpoints que exigem autenticação via Json Web Token;
+5. Alguns endpoints com autenticação via Json Web Token;
 6. Interação com banco de dados MySQL com queries escritas por mim.
+
+## Exemplo de respostas
+
+``
+{
+    "message": "Denkes recuperados com sucesso",
+    "user": {
+        "id": 1,
+        "name": "Anamara da Silva",
+        "username": "anamara",
+        "email": "anamara@anamara.com",
+        "image": "166138215181949.jpg",
+        "createdAt": "2022-08-25T02:02:32.000Z",
+        "updatedAt": "2022-08-26T20:31:00.000Z"
+    },
+    "denkes": [
+        {
+            "id": 45,
+            "content": "Amei a mesinha de centro",
+            "image": "NULL",
+            "createdAt": "2022-08-25T18:42:33.000Z",
+            "updatedAt": "2022-08-25T18:42:33.000Z",
+            "denke_id": 44,
+            "user_id": 1,
+            "user_name": "Anamara da Silva",
+            "user_username": "anamara",
+            "user_email": "anamara@anamara.com",
+            "user_image": "166138215181949.jpg"
+        },
+        {
+            "id": 30,
+            "content": "OMG como minha vida está difícil nessas férias hahah",
+            "image": "1661441107565351.jpg",
+            "createdAt": "2022-08-25T18:25:07.000Z",
+            "updatedAt": "2022-08-25T18:25:07.000Z",
+            "denke_id": 16,
+            "user_id": 1,
+            "user_name": "Anamara da Silva",
+            "user_username": "anamara",
+            "user_email": "anamara@anamara.com",
+            "user_image": "166138215181949.jpg"
+        }
+    ]
+}
+``
 
 ## Imagens e links para navegação
 
