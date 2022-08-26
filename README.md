@@ -14,9 +14,9 @@
 
 Criado por [mim](https://github.com/cegj), com **Node JS**, para fins de aprendizado.
 
-Este é o repositório do backend do projeto [Denker](https://github.com/cegj/denker-frontend/blob/main/README.md), desenvolvido com NODE JS + Express + Json Web Token. A interação é realizada por meio de requisições HTTP nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em JSON. A autenticação (nos endpoints que exigem) é feita via Json Web Token. 
+Este é o repositório do backend do projeto [Denker](https://github.com/cegj/denker-frontend/blob/main/README.md), desenvolvido com **NODE JS** com **Express**. A interação é realizada por meio de **requisições HTTP** nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em **JSON**. A autenticação (nos endpoints que exigem) é feita via **Json Web Token**. 
 
-O projeto está estruturado seguindo a arquitetura MVC, e as queries SQL dos *models* para interação com o banco de dados foram escritas por mim, assim como toda a lógica dos *controllers* e todos os demais códigos.
+O projeto está estruturado seguindo a arquitetura **MVC**, e as queries **SQL** dos *models* para interação com o banco de dados foram escritas por mim, assim como toda a lógica dos *controllers* e todos os demais códigos.
 
 ## Stack
 
