@@ -37,6 +37,7 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
 
 ## Exemplo de respostas
 
+Endpoint GET para obter postagens de um determinado usuário: 
 ```
 {
     "message": "Denkes recuperados com sucesso",
@@ -80,7 +81,71 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
 }
 ```
 
-## Imagens e links para navegação
+Endpoint GET para buscar usuários (procura termos no nome, nome de usuário e e-mail):
+```
+{
+    "result": [
+        {
+            "id": 1,
+            "name": "Anamara da Silva",
+            "username": "anamara",
+            "email": "anamara@anamara.com",
+            "image": "166138215181949.jpg",
+            "createdAt": "2022-08-25T02:02:32.000Z",
+            "updatedAt": "2022-08-26T20:31:00.000Z"
+        },
+        {
+            "id": 6,
+            "name": "Fernando Ulgari",
+            "username": "o_fernando",
+            "email": "fernando@fernando.com",
+            "image": "1661382859990796.jpg",
+            "createdAt": "2022-08-25T02:14:20.000Z",
+            "updatedAt": "2022-08-25T02:14:20.000Z"
+        }
+    ]
+}
+```
+
+Endpoint POST para curtir uma postagem de um usuário:
+```
+{
+    "message": "Denke curtido com sucesso",
+    "denke": [
+        {
+            "id": 10,
+            "content": "Vish! Complicado heim... algum plano B por aí?",
+            "image": "NULL",
+            "createdAt": "2022-08-25T18:01:00.000Z",
+            "updatedAt": "2022-08-25T18:01:00.000Z",
+            "denke_id": 9,
+            "user_id": 2,
+            "user_name": "Bertoldo Yste",
+            "user_username": "byste",
+            "user_email": "bertoldo@bertoldo.com",
+            "user_image": "1661382215560210.jpg"
+        }
+    ]
+}
+```
+
+Endpoint DELETE para deixar de seguir um usuário:
+```
+{
+    "message": "Você deixou de seguir o usuário @romao_iasmin",
+    "unfollowedUser": {
+        "id": 9,
+        "name": "Iasmin Romão",
+        "username": "romao_iasmin",
+        "email": "iasmin@iasmin.com",
+        "image": "1661383273488358.jpg",
+        "createdAt": "2022-08-25T02:21:13.000Z",
+        "updatedAt": "2022-08-25T02:21:13.000Z"
+    }
+}
+```
+
+## Imagens e links para navegação (do frontend)
 
 <div align="center">
 <img src="https://imgur.com/Czc0OTb.png" alt="Tela inicial / Home screen">
