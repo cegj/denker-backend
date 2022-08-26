@@ -18,12 +18,15 @@ Denker é uma rede social para compartilhar seus pensamentos e acompanhar os pen
 
 💡 Denker significa "pensador" em alemão. Na rede social, denker é um usuário, e denkes são seus posts.
 
-Este é o repositório do backend, desenvolvido com NODE JS + Express + Json Web Token. A consulta à API é realizada por meio de requisições HTTP nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em JSON. A autenticação (nos endpoints que exigem) é feita via Json Web Token.
+Este é o repositório do backend, desenvolvido com NODE JS + Express + Json Web Token. A interação é realizada por meio de requisições HTTP nos diversos verbos (get, post, delete, patch) e as respostas são devolvidas em JSON. A autenticação (nos endpoints que exigem) é feita via Json Web Token. 
+
+O projeto está estruturado seguindo a arquitetura MVC, e as queries SQL dos *models* para interação com o banco de dados foram escritas por mim, assim como os *controllers* e todos os demais códigos.
 
 ## Stack
 
 - NodeJS + Express;
-- Json Web Token.
+- Json Web Token;
+- MySQL.
 
 Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/cegj/denker-frontend).
 
@@ -33,7 +36,8 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
 2. Endpoints para criar (POST) usuários, publicações, seguidores e curtidas via HTTP request;
 3. Endpoints para editar (PATCH) usuários e publicações via HTTP request;
 4. Endpoints para apagar (DELETE) usuários, publicações, seguidores e curtidas via HTTP request;
-5. Endpoints de acesso livre e endpoints que exigem autenticação via Json Web Token.
+5. Endpoints de acesso livre e endpoints que exigem autenticação via Json Web Token;
+6. Interação com banco de dados MySQL com queries escritas por mim.
 
 ## Imagens e links para navegação
 
