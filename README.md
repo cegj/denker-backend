@@ -37,7 +37,7 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
 
 ## Exemplo de respostas
 
-``
+```
 {
     "message": "Denkes recuperados com sucesso",
     "user": {
@@ -78,7 +78,7 @@ Frontend desenvolvido em React: [veja o repositório aqui](https://github.com/ce
         }
     ]
 }
-``
+```
 
 ## Imagens e links para navegação
 
