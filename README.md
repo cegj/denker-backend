@@ -10,7 +10,7 @@
   <img src="https://imgur.com/YoRT8Cw.jpg" alt="Denker" />
 </div>
 
-# Denker (frontend)
+# Denker (backend)
 
 Criado por [mim](https://github.com/cegj), com **Node JS**, para fins de aprendizado.
 
